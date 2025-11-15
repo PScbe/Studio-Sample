@@ -3,1010 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Makeover Artistry</title>
-    <!-- Tailwind CSS from CDN for modern styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons from CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Possible Studio - Client Showcase</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Import the Inter font for a clean, modern look */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fef2f2; /* Soft pink background */
+        /* Custom styles to hide scrollbars and apply yellow glow */
+        .card-shadow {
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.3); 
+        }
+        /* Hide scrollbar for the body and the content sections */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
-        /* Custom scrollbar styling for a better user experience */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Modal specific styles for iOS-like transition */
+        .modal-hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        /* Modal backdrop styling */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+        .modal-visible {
+            opacity: 1;
+            transform: scale(1);
         }
         
-        /* Video modal backdrop with blur effect */
-        .video-modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1500;
-            transition: opacity 0.3s ease-in-out;
-        }
-        
-        .course-access-modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1500;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        /* Animation for modal entry */
-        .modal-container {
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        .video-modal-container {
-            animation: fadeIn 0.3s ease-out;
-            position: relative;
-        }
-        
-        .watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-            font-size: 1.25rem;
-            font-weight: bold;
-            pointer-events: none; /* Prevents the watermark from interfering with video controls */
-            z-index: 1;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
-<body class="bg-red-50 antialiased text-gray-800">
-    <div id="app" class="container mx-auto p-4 max-w-7xl">
-        <!-- The application will be rendered here by JavaScript -->
+<!-- The body is set to full viewport height with hidden overflow to prevent native scrolling --><body class="bg-gray-950 text-white font-sans antialiased h-screen overflow-hidden">
+
+    <!-- Fixed Header and Navigation Controls --><header class="fixed top-0 left-0 right-0 z-50 p-4 bg-gray-950/90 backdrop-blur-sm border-b-2 border-yellow-700/50 flex justify-between items-center shadow-lg">
+        <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+            Possible Studio
+        </h1>
+
+        <div class="space-x-4">
+            <button id="prev-button" class="px-4 py-2 bg-gray-800 text-yellow-500 font-medium rounded-full transition duration-200 hover:bg-gray-700 disabled:opacity-30 disabled:pointer-events-none" disabled>
+                &larr; Previous (Images)
+            </button>
+            <button id="next-button" class="px-4 py-2 bg-yellow-500 text-gray-950 font-medium rounded-full transition duration-200 hover:bg-yellow-600 disabled:opacity-30 disabled:pointer-events-none">
+                Next (Videos) &rarr;
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container: Horizontal Flexbox --><!-- This container holds all sections and will be horizontally scrolled via JS --><div id="content-slider" class="flex w-full h-full pt-[6.5rem] overflow-x-hidden">
+        
+        <!-- Section 1: Studio Images (Tile Gallery) --><section id="studio-images" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto h-full flex flex-col">
+                <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
+                    Our Space: Studio Images
+                </h2>
+                
+                <!-- Tile Gallery Grid --><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
+                    
+                    <!-- Image Tile 1 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/222233/d1d5db?text=Image+1">
+                        <img src="https://placehold.co/400x300/222233/d1d5db?text=Image+1" 
+                            alt="Studio Image 1" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/222233/d1d5db?text=Error';">
+                    </div>
+                    
+                    <!-- Image Tile 2 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/333344/d1d5db?text=Image+2">
+                        <img src="https://placehold.co/400x300/333344/d1d5db?text=Image+2" 
+                            alt="Studio Image 2" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/333344/d1d5db?text=Error';">
+                    </div>
+                    
+                    <!-- Image Tile 3 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/444455/d1d5db?text=Image+3">
+                        <img src="https://placehold.co/400x300/444455/d1d5db?text=Image+3" 
+                            alt="Studio Image 3" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/444455/d1d5db?text=Error';">
+                    </div>
+
+                    <!-- Image Tile 4 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/555566/d1d5db?text=Image+4">
+                        <img src="https://placehold.co/400x300/555566/d1d5db?text=Image+4" 
+                            alt="Studio Image 4" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/555566/d1d5db?text=Error';">
+                    </div>
+
+                    <!-- Image Tile 5 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/666677/d1d5db?text=Image+5">
+                        <img src="https://placehold.co/400x300/666677/d1d5db?text=Image+5" 
+                            alt="Studio Image 5" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/666677/d1d5db?text=Error';">
+                    </div>
+                    
+                    <!-- Image Tile 6 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/777788/d1d5db?text=Image+6">
+                        <img src="https://placehold.co/400x300/777788/d1d5db?text=Image+6" 
+                            alt="Studio Image 6" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/777788/d1d5db?text=Error';">
+                    </div>
+
+                    <!-- Image Tile 7 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/888899/d1d5db?text=Image+7">
+                        <img src="https://placehold.co/400x300/888899/d1d5db?text=Image+7" 
+                            alt="Studio Image 7" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/888899/d1d5db?text=Error';">
+                    </div>
+
+                    <!-- Image Tile 8 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://placehold.co/800x600/9999AA/d1d5db?text=Image+8">
+                        <img src="https://placehold.co/400x300/9999AA/d1d5db?text=Image+8" 
+                            alt="Studio Image 8" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/9999AA/d1d5db?text=Error';">
+                    </div>
+                    
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 2: Sample Videos (w-screen makes it fill 100% of the viewport width) --><section id="sample-videos" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
+                    Sample Work: Client Videos
+                </h2>
+                
+                <!-- NEW: Video Tile Gallery Grid (matches image gallery) --><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
+                    
+                    <!-- Video Tile 1 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-1.mp4">
+                        <img src="https://placehold.co/400x300/d69e2e/1a202c?text=Video+1" 
+                            alt="Video Thumbnail 1" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/d69e2e/1a202c?text=Error';">
+                    </div>
+
+                    <!-- Video Tile 2 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-2.mp4">
+                        <img src="https://placehold.co/400x300/b8860b/1a202c?text=Video+2" 
+                            alt="Video Thumbnail 2" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/b8860b/1a202c?text=Error';">
+                    </div>
+
+                    <!-- Video Tile 3 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-3.mp4">
+                        <img src="https://placehold.co/400x300/daa520/1a202c?text=Video+3" 
+                            alt="Video Thumbnail 3" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/daa520/1a202c?text=Error';">
+                    </div>
+
+                    <!-- Video Tile 4 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-4.mp4">
+                        <img src="https://placehold.co/400x300/cd853f/1a202c?text=Video+4" 
+                            alt="Video Thumbnail 4" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/cd853f/1a202c?text=Error';">
+                    </div>
+
+                    <!-- Video Tile 5 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-5.mp4">
+                        <img src="https://placehold.co/400x300/d69e2e/1a202c?text=Video+5" 
+                            alt="Video Thumbnail 5" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/d69e2e/1a202c?text=Error';">
+                    </div>
+
+                    <!-- Video Tile 6 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                        data-src="https://mock-video-server.com/mock-video-6.mp4">
+                        <img src="https://placehold.co/400x300/b8860b/1a202c?text=Video+6" 
+                            alt="Video Thumbnail 6" 
+                            class="w-full h-auto object-cover rounded-xl aspect-square"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/b8860b/1a202c?text=Error';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
-    
-    <!-- Floating WhatsApp button for user support -->
-    <a href="https://wa.me/919876543210" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors z-[999]">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="lucide lucide-whatsapp">
-            <path d="M12.04 2.87c-5.46 0-9.91 4.45-9.91 9.91 0 1.64.44 3.25 1.25 4.67L2.01 22.04l5.3-1.39c1.33.7 2.84 1.07 4.73 1.07 5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zm4.84 13.91c-.13.3-.5.48-.82.4-.33-.08-.55-.2-.84-.46-.35-.3-.7-.66-.99-.95-.29-.3-.62-.51-.97-.5-.35 0-.75.13-1.12.56-.37.44-.76.9-.94 1.08-.2.18-.38.2-.74.1-.36-.1-.94-.35-1.46-1.02-.51-.67-.86-1.5-.96-1.68-.1-.18 0-.28.18-.46.18-.18.4-.4.5-.54.1-.14.12-.25.18-.38.07-.13.04-.26-.02-.4-.06-.14-.49-1.18-.68-1.58-.19-.4-.38-.34-.5-.34-.12 0-.25-.03-.5-.03-.25 0-.64.1-.97.48-.33.38-1.25 1.2-1.25 2.86s1.28 3.32 1.45 3.5c.18.18 2.59 4.15 6.27 5.25.92.27 1.64.43 2.21.43.58 0 1.1-.1 1.48-.2.38-.1.97-.4 1.13-.8.16-.4.16-.7.11-.8-.06-.1-.18-.16-.36-.25-.18-.09-.5-.14-.7-.25z"/>
-        </svg>
-    </a>
+
+    <!-- Image Modal (Hidden by default) --><div id="image-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeImageModal(event)">
+        <!-- Modal Backdrop --><div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
+
+        <!-- Modal Content Container --><div id="image-modal-content" class="relative bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl modal-hidden card-shadow">
+            
+            <!-- Close Button (Top Right) --><button class="absolute top-4 right-4 text-white text-3xl opacity-70 hover:opacity-100 transition duration-150" aria-label="Close" onclick="closeImageModal()">
+                &times;
+            </button>
+            
+            <!-- Image Display --><div class="mb-0 aspect-video bg-black rounded-lg overflow-hidden border-2 border-yellow-700/50">
+                <img id="modal-image" src="" alt="Studio Image" class="w-full h-full object-contain">
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Video Modal (Hidden by default) --><div id="video-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeVideoModal(event)">
+        <!-- Modal Backdrop --><div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
+
+        <!-- Modal Content Container --><div id="video-modal-content" class="relative bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl modal-hidden card-shadow">
+            
+            <!-- Close Button (Top Right) --><button class="absolute top-4 right-4 text-white text-3xl opacity-70 hover:opacity-100 transition duration-150" aria-label="Close" onclick="closeVideoModal()">
+                &times;
+            </button>
+            
+            <!-- Video Display --><div class="mb-0 aspect-video bg-black rounded-lg overflow-hidden border-2 border-yellow-700/50">
+                <video id="modal-video" controls autoplay class="w-full h-full object-contain">
+                    <source id="modal-video-source" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
 
     <script>
-        // Use a global state object to manage the application's data
-        let appState = {
-            isLoggedIn: false,
-            // Expanded user object to store more information
-            user: { name: '', email: '', phoneNumber: '', location: '', id: null, purchasedCourses: [] }, 
-            activeCourseForPurchase: null,
-            activeTab: 'courses', 
-            isLoginModalOpen: false,
-            isPasswordRecoveryOpen: false, // New state for password recovery modal
-            isPaymentModalOpen: false, 
-            isPaymentProcessing: false, 
-            activePaymentMethod: 'card', 
-            isVideoModalOpen: false, 
-            activeVideoUrl: null, 
-            isCourseAccessModalOpen: false,
-            isProfileEditOpen: false, // New state for profile management modal
-            message: null,
-            // Simulated user database for demonstration purposes
-            users: []
-        };
+        // --- Main Page Slider Logic (Images <-> Videos) ---
+        const slider = document.getElementById('content-slider');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const sections = document.querySelectorAll('#content-slider section');
+        let currentSectionIndex = 0;
 
-        const courseData = [
-            { id: 1, name: 'Fair Skin Makeup', price: 300, imageUrl: 'https://placehold.co/400x250/FBE1DB/3E3737?text=Fair+Skin', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-            { id: 2, name: 'Dark Skin Makeup', price: 300, imageUrl: 'https://placehold.co/400x250/A37A71/ffffff?text=Dark+Skin', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-            { id: 3, name: 'Saree Draping', price: 300, imageUrl: 'https://placehold.co/400x250/F2C3D3/3E3737?text=Saree+Draping', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-            { id: 4, name: 'Flower Arrangement (Hairstyling)', price: 300, imageUrl: 'https://placehold.co/400x250/FFD8F0/3E3737?text=Flower+Arrangement', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-        ];
-        
-        // WhatsApp link and phone number
-        const whatsappPhoneNumber = '919876543210';
-        const whatsappLink = `https://wa.me/${whatsappPhoneNumber}`;
-
-        // --- State Management and Actions ---
-        
-        const handleBuyNow = (course) => {
-            appState.activeCourseForPurchase = course;
-            if (!appState.isLoggedIn) {
-                openLoginModal();
-            } else {
-                openPaymentModal();
-            }
-            renderApp();
-        };
-
-        const processPayment = () => {
-            appState.isPaymentProcessing = true;
-            renderApp();
-
-            // Simulate a delay for payment processing
-            setTimeout(() => {
-                const purchasedCourseId = appState.activeCourseForPurchase.id;
-                appState.user.purchasedCourses.push(purchasedCourseId);
-                appState.activeCourseForPurchase = null;
-                appState.isPaymentProcessing = false;
-                closePaymentModal();
-                showMessage('Purchase successful! Check your email for course access.', 'bg-rose-100 text-rose-800');
-                renderApp();
-            }, 3000); // 3-second delay
-        };
-
-        const handleRegistration = (user) => {
-            // Check if user already exists
-            const existingUser = appState.users.find(u => u.email === user.email || u.phoneNumber === user.phoneNumber);
-            if (existingUser) {
-                showMessage('An account with this email or phone number already exists.', 'bg-red-100 text-red-800');
-                return;
-            }
-
-            const newUser = { ...user, id: crypto.randomUUID(), purchasedCourses: [] };
-            appState.users.push(newUser);
-            appState.isLoggedIn = true;
-            appState.user = newUser;
-            appState.isLoginModalOpen = false;
-            showMessage('Registration successful! Welcome to the academy.', 'bg-rose-100 text-rose-800');
-            renderApp();
-        };
-
-        const handleLogin = (email, password) => {
-            const user = appState.users.find(u => u.email === email && u.password === password);
-            if (user) {
-                appState.isLoggedIn = true;
-                appState.user = user;
-                appState.isLoginModalOpen = false;
-                showMessage('Login successful!', 'bg-rose-100 text-rose-800');
-                renderApp();
-            } else {
-                showMessage('Invalid email or password.', 'bg-red-100 text-red-800');
-            }
-        };
-
-        const handlePasswordRecovery = (email) => {
-            // Simulate password recovery link being sent to email
-            const user = appState.users.find(u => u.email === email);
-            if (user) {
-                closePasswordRecoveryModal();
-                showMessage(`Password reset link sent to ${email}!`, 'bg-rose-100 text-rose-800');
-            } else {
-                showMessage('Email not found.', 'bg-red-100 text-red-800');
-            }
-            renderApp();
-        };
-
-        const handleProfileUpdate = (updatedUser) => {
-            // Update the user in the simulated database
-            const index = appState.users.findIndex(u => u.id === updatedUser.id);
-            if (index !== -1) {
-                appState.users[index] = updatedUser;
-                appState.user = updatedUser; // Update the current session user
-                closeProfileEditModal();
-                showMessage('Profile updated successfully!', 'bg-rose-100 text-rose-800');
-            } else {
-                showMessage('Failed to update profile.', 'bg-red-100 text-red-800');
-            }
-            renderApp();
-        };
-
-        const handleLogout = () => {
-            appState.isLoggedIn = false;
-            appState.user = { name: '', email: '', phoneNumber: '', location: '', id: null, purchasedCourses: [] };
-            appState.activeTab = 'courses';
-            showMessage('You have been logged out.', 'bg-rose-100 text-rose-800');
-            renderApp();
-        };
-
-        const setActiveTab = (tab) => {
-            appState.activeTab = tab;
-            renderApp();
-        };
-
-        const openLoginModal = () => {
-            appState.isLoginModalOpen = true;
-            renderApp();
-        };
-
-        const closeLoginModal = () => {
-            appState.isLoginModalOpen = false;
-            renderApp();
-        };
-
-        const openPasswordRecoveryModal = () => {
-            appState.isLoginModalOpen = false;
-            appState.isPasswordRecoveryOpen = true;
-            renderApp();
-        };
-
-        const closePasswordRecoveryModal = () => {
-            appState.isPasswordRecoveryOpen = false;
-            renderApp();
-        };
-
-        const openPaymentModal = () => {
-            appState.isPaymentModalOpen = true;
-            appState.activePaymentMethod = 'card'; // Default to card on opening
-            renderApp();
-        };
-
-        const closePaymentModal = () => {
-            appState.isPaymentModalOpen = false;
-            renderApp();
-        };
-        
-        const openVideoModal = (videoUrl) => {
-            appState.isVideoModalOpen = true;
-            appState.activeVideoUrl = videoUrl;
-            renderApp();
-        };
-        
-        const closeVideoModal = () => {
-            appState.isVideoModalOpen = false;
-            appState.activeVideoUrl = null;
-            renderApp();
-        };
-
-        const openCourseAccessModal = (course) => {
-            appState.isCourseAccessModalOpen = true;
-            appState.activeCourseForPurchase = course;
-            renderApp();
-        };
-
-        const closeCourseAccessModal = () => {
-            appState.isCourseAccessModalOpen = false;
-            appState.activeCourseForPurchase = null;
-            renderApp();
-        };
-        
-        const openProfileEditModal = () => {
-            appState.isProfileEditOpen = true;
-            renderApp();
-        };
-        
-        const closeProfileEditModal = () => {
-            appState.isProfileEditOpen = false;
-            renderApp();
-        };
-
-
-        const showMessage = (text, type = 'bg-rose-100 text-rose-800') => {
-            appState.message = { text, type };
-            renderApp();
-            setTimeout(() => {
-                appState.message = null;
-                renderApp();
-            }, 3000); // Message disappears after 3 seconds
-        };
-
-        const setActivePaymentMethod = (method) => {
-            appState.activePaymentMethod = method;
-            renderApp();
-        };
-        
-        // --- Component Rendering Functions ---
-        const createHeader = () => {
-            const header = document.createElement('header');
-            header.className = "flex justify-between items-center p-4 bg-white shadow-md rounded-xl mt-4";
-            header.innerHTML = `
-                <div class="flex items-center space-x-6">
-                    <h1 class="text-xl font-bold text-rose-700">Tamil Makeover Artistry</h1>
-                    <button id="courses-tab" class="flex items-center space-x-2 py-2 px-4 rounded-full transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
-                        <span class="font-semibold">Courses</span>
-                    </button>
-                    ${appState.isLoggedIn ? 
-                        `<button id="dashboard-tab" class="flex items-center space-x-2 py-2 px-4 rounded-full transition-all duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
-                            <span class="font-semibold">My Dashboard</span>
-                        </button>`
-                        : ''}
-                </div>
-                <div class="flex items-center space-x-4">
-                    ${appState.isLoggedIn ?
-                        `<div class="flex items-center space-x-2 text-rose-700 font-medium">
-                            <span>Welcome, ${appState.user.name}</span>
-                            <button id="logout-btn" class="flex items-center space-x-2 text-gray-600 hover:text-rose-600 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                            </button>
-                        </div>` :
-                        `<button id="login-signup-btn" class="flex items-center space-x-2 text-gray-600 hover:text-rose-600 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
-                            <span class="font-medium">Login / Sign Up</span>
-                        </button>`
-                    }
-                </div>
-            `;
-            
-            // Add event listeners for navigation tabs and login button
-            header.querySelector('#courses-tab').addEventListener('click', () => setActiveTab('courses'));
-            if (appState.isLoggedIn) {
-                header.querySelector('#dashboard-tab').addEventListener('click', () => setActiveTab('dashboard'));
-                header.querySelector('#logout-btn').addEventListener('click', handleLogout);
-            }
-
-            // Highlight the active tab
-            const coursesTab = header.querySelector('#courses-tab');
-            if (appState.activeTab === 'courses') {
-                coursesTab.classList.add('bg-rose-500', 'text-white', 'shadow-lg');
-                coursesTab.classList.remove('text-gray-600', 'hover:bg-gray-100');
-            } else if (appState.isLoggedIn && appState.activeTab === 'dashboard') {
-                const dashboardTab = header.querySelector('#dashboard-tab');
-                dashboardTab.classList.add('bg-rose-500', 'text-white', 'shadow-lg');
-                dashboardTab.classList.remove('text-gray-600', 'hover:bg-gray-100');
-            }
-            
-            const loginBtn = header.querySelector('#login-signup-btn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', openLoginModal);
-            }
-            
-            return header;
-        };
-
-        const createHeroSection = () => {
-            const hero = document.createElement('div');
-            hero.className = "bg-white rounded-xl shadow-lg p-8 md:p-16 mt-4 text-center";
-            hero.innerHTML = `
-                <h1 class="text-4xl md:text-5xl font-extrabold text-rose-700 leading-tight">
-                    Unlock Your Inner Makeup Artist
-                </h1>
-                <p class="text-lg md:text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-                    Master the art of makeup, hairstyling, and more with our professional-grade online courses.
-                </p>
-                <button id="browse-courses-btn" class="mt-8 px-8 py-3 bg-rose-500 text-white rounded-full font-bold shadow-lg hover:bg-rose-600 transition-colors duration-300 transform hover:scale-105">
-                    Browse All Courses
-                </button>
-            `;
-            hero.querySelector('#browse-courses-btn').addEventListener('click', () => {
-                window.scrollTo({
-                    top: document.body.scrollHeight,
+        function scrollToSection(index) {
+            if (index >= 0 && index < sections.length) {
+                currentSectionIndex = index;
+                const offset = currentSectionIndex * window.innerWidth;
+                
+                slider.scrollTo({
+                    left: offset,
                     behavior: 'smooth'
                 });
-            });
-            return hero;
+                updateNavigationButtons();
+            }
         }
 
-        const createCourseList = () => {
-            const container = document.createElement('div');
-            container.className = "p-8";
+        function updateNavigationButtons() {
+            prevButton.disabled = currentSectionIndex === 0;
+            nextButton.disabled = currentSectionIndex === sections.length - 1;
             
-            const header = document.createElement('h2');
-            header.className = "text-3xl font-extrabold text-gray-800 text-center mb-10";
-            header.textContent = "Featured Courses";
-            container.appendChild(header);
+            prevButton.textContent = currentSectionIndex === 1 ? '← Previous (Images)' : '← Previous';
+            nextButton.textContent = currentSectionIndex === 0 ? 'Next (Videos) →' : 'Next →';
+        }
 
-            const grid = document.createElement('div');
-            grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8";
+        nextButton.addEventListener('click', () => scrollToSection(currentSectionIndex + 1));
+        prevButton.addEventListener('click', () => scrollToSection(currentSectionIndex - 1));
 
-            courseData.forEach(course => {
-                const hasPurchased = appState.isLoggedIn && appState.user.purchasedCourses.includes(course.id);
-                const courseCard = document.createElement('div');
-                courseCard.className = "bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden group flex flex-col justify-between";
-                courseCard.innerHTML = `
-                    <div class="relative">
-                        <img src="${course.imageUrl}" alt="${course.name}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"/>
-                        <button class="intro-video-btn absolute top-4 left-4 bg-white/70 text-gray-800 rounded-full px-3 py-1 text-sm font-medium backdrop-blur-sm hover:bg-white transition-colors flex items-center space-x-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            <span>Intro Video</span>
-                        </button>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800">${course.name}</h3>
-                            <div class="flex flex-wrap gap-2 mt-2">
-                                <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Lifetime access</span>
-                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">PDF Included</span>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                            ${hasPurchased
-                                ? `<button class="view-course-btn px-6 py-2 bg-green-500 text-white rounded-full font-bold shadow-md hover:bg-green-600 transition-colors duration-300 transform hover:scale-105">
-                                    View Course
-                                </button>`
-                                : `<span class="text-2xl font-bold text-rose-500">₹${course.price}</span>
-                                <button class="buy-now-btn px-6 py-2 bg-rose-500 text-white rounded-full font-bold shadow-md hover:bg-rose-600 transition-colors duration-300 transform hover:scale-105">
-                                    Buy Now
-                                </button>`
-                            }
-                        </div>
-                    </div>
-                `;
-                if (hasPurchased) {
-                    courseCard.querySelector('.view-course-btn').addEventListener('click', () => openCourseAccessModal(course));
-                } else {
-                    courseCard.querySelector('.buy-now-btn').addEventListener('click', () => handleBuyNow(course));
+        window.addEventListener('resize', () => {
+            slider.scrollLeft = currentSectionIndex * window.innerWidth;
+        });
+        updateNavigationButtons(); // Initial call
+
+
+        // --- Image Gallery Modal Logic ---
+        const imageTiles = document.querySelectorAll('.image-gallery-tile');
+        const imageModal = document.getElementById('image-modal');
+        const imageModalContent = document.getElementById('image-modal-content');
+        const modalImage = document.getElementById('modal-image');
+
+        function openImageModal(tile) {
+            modalImage.src = tile.dataset.src;
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+
+            setTimeout(() => {
+                imageModalContent.classList.remove('modal-hidden');
+                imageModalContent.classList.add('modal-visible');
+            }, 10);
+        }
+
+        function closeImageModal(e) {
+            if (e && e.target !== imageModal) return;
+
+            imageModalContent.classList.remove('modal-visible');
+            imageModalContent.classList.add('modal-hidden');
+
+            setTimeout(() => {
+                imageModal.classList.remove('flex');
+                imageModal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; 
+            }, 300);
+        }
+
+        imageTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                openImageModal(tile);
+            });
+        });
+
+        // --- Video Gallery Modal Logic ---
+        const videoTiles = document.querySelectorAll('.video-gallery-tile');
+        const videoModal = document.getElementById('video-modal');
+        const videoModalContent = document.getElementById('video-modal-content');
+        const modalVideo = document.getElementById('modal-video');
+        const modalVideoSource = document.getElementById('modal-video-source');
+
+        function openVideoModal(tile) {
+            modalVideoSource.src = tile.dataset.src;
+            modalVideo.load(); // Load the new video source
+            
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                videoModalContent.classList.remove('modal-hidden');
+                videoModalContent.classList.add('modal-visible');
+                modalVideo.play().catch(e => console.error("Autoplay prevented:", e));
+            }, 10);
+        }
+
+        function closeVideoModal(e) {
+            if (e && e.target !== videoModal) return;
+
+            modalVideo.pause(); // Stop video playback
+            modalVideoSource.src = ""; // Remove the source
+            
+            videoModalContent.classList.remove('modal-visible');
+            videoModalContent.classList.add('modal-hidden');
+
+            setTimeout(() => {
+                videoModal.classList.remove('flex');
+                videoModal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; 
+            }, 300);
+        }
+
+        videoTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                openVideoModal(tile);
+            });
+        });
+
+        // --- Global ESC Key Listener for both Modals ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                if (!imageModal.classList.contains('hidden')) {
+                    closeImageModal();
                 }
-                courseCard.querySelector('.intro-video-btn').addEventListener('click', () => openVideoModal(course.videoUrl));
-                grid.appendChild(courseCard);
-            });
-            container.appendChild(grid);
-            return container;
-        };
-
-        const createDashboard = () => {
-            const container = document.createElement('div');
-            container.className = "p-8";
-
-            const header = document.createElement('h2');
-            header.className = "text-3xl font-extrabold text-gray-800 mb-6 flex justify-between items-center";
-            header.innerHTML = `
-                <span>Hello, ${appState.user.name}</span>
-                <button id="edit-profile-btn" class="text-sm font-medium text-gray-600 hover:text-rose-600 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit-2 inline-block mr-1"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                    Edit Profile
-                </button>
-            `;
-            container.appendChild(header);
-            
-            const userDetails = document.createElement('div');
-            userDetails.className = "bg-white rounded-xl shadow-lg p-6 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm";
-            userDetails.innerHTML = `
-                <p><strong class="font-medium">Email:</strong> ${appState.user.email}</p>
-                <p><strong class="font-medium">Phone Number:</strong> ${appState.user.phoneNumber}</p>
-                <p><strong class="font-medium">Location:</strong> ${appState.user.location}</p>
-            `;
-            container.appendChild(userDetails);
-
-            const courseHeader = document.createElement('h3');
-            courseHeader.className = "text-2xl font-bold text-gray-800 mb-6 border-b pb-4";
-            courseHeader.textContent = "My Courses";
-            container.appendChild(courseHeader);
-
-            const purchasedCourses = courseData.filter(course => appState.user.purchasedCourses.includes(course.id));
-            if (purchasedCourses.length > 0) {
-                const courseGrid = document.createElement('div');
-                courseGrid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8";
-                purchasedCourses.forEach(course => {
-                    const courseCard = document.createElement('div');
-                    courseCard.className = "bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between";
-                    courseCard.innerHTML = `
-                        <div class="relative">
-                            <img src="${course.imageUrl}" alt="${course.name}" class="w-full h-48 object-cover"/>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-xl font-bold text-gray-800">${course.name}</h3>
-                            <div class="flex-grow">
-                                <p class="text-gray-600 text-sm mt-2">You own this course. Enjoy lifetime access!</p>
-                            </div>
-                            <button class="view-course-btn mt-4 px-6 py-2 bg-green-500 text-white rounded-full font-bold shadow-md hover:bg-green-600 transition-colors">
-                                View Course
-                            </button>
-                        </div>
-                    `;
-                    courseCard.querySelector('.view-course-btn').addEventListener('click', () => openCourseAccessModal(course));
-                    courseGrid.appendChild(courseCard);
-                });
-                container.appendChild(courseGrid);
-            } else {
-                const noCoursesMessage = document.createElement('p');
-                noCoursesMessage.className = "text-center text-gray-600 text-lg p-8";
-                noCoursesMessage.textContent = "You have not purchased any courses yet.";
-                container.appendChild(noCoursesMessage);
+                if (!videoModal.classList.contains('hidden')) {
+                    closeVideoModal();
+                }
             }
-
-            container.querySelector('#edit-profile-btn').addEventListener('click', openProfileEditModal);
-
-            return container;
-        };
-
-        const createPurchaseConfirmation = () => {
-            const confirmation = document.createElement('div');
-            confirmation.className = "flex flex-col items-center justify-center p-8 bg-rose-50 text-rose-700 rounded-xl shadow-lg mt-8";
-            confirmation.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 mb-4"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-2-6l4-4"/></svg>
-                <h3 class="text-2xl font-bold">Purchase Successful!</h3>
-                <p class="mt-2 text-center">
-                    Congratulations! You now have **Lifetime Access** to this course.
-                    An order confirmation and course materials have been sent to your registered email and/or mobile number.
-                </p>
-                <button id="back-to-courses-btn" class="mt-4 px-6 py-2 bg-pink-600 text-white rounded-full font-bold hover:bg-pink-700 transition-colors">
-                    Back to Courses
-                </button>
-            `;
-            confirmation.querySelector('#back-to-courses-btn').addEventListener('click', () => setActiveTab('courses'));
-            return confirmation;
-        };
-
-        const createLoginModal = () => {
-            const modal = document.createElement('div');
-            modal.className = "modal-backdrop";
-            
-            modal.innerHTML = `
-                <div class="modal-container bg-white rounded-xl shadow-2xl p-8 w-11/12 max-w-md relative">
-                    <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus text-rose-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="22" x2="19" y1="11" y2="11"/><line x1="19" x2="19" y1="8" y2="14"/></svg>
-                        <span>Login / Sign Up</span>
-                    </h4>
-                    
-                    <!-- Tabs for Login and Register -->
-                    <div class="flex bg-gray-100 p-1 rounded-full mb-6">
-                        <button id="tab-login" class="flex-1 py-2 px-4 rounded-full font-medium transition-colors bg-white shadow">Log In</button>
-                        <button id="tab-register" class="flex-1 py-2 px-4 rounded-full font-medium transition-colors">Sign Up</button>
-                    </div>
-
-                    <!-- Forms Container -->
-                    <div id="auth-forms">
-                        <!-- Login Form -->
-                        <form id="login-form" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="login-email">Email</label>
-                                <input type="email" id="login-email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="you@gmail.com" required/>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="login-password">Password</label>
-                                <input type="password" id="login-password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" required/>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <label class="flex items-center space-x-2 text-sm font-medium text-gray-700">
-                                    <input type="checkbox" name="remember-me" class="rounded text-rose-500 focus:ring-rose-500">
-                                    <span>Remember Me</span>
-                                </label>
-                                <button type="button" id="forgot-password-link" class="text-sm font-medium text-rose-500 hover:underline">Forgot Password?</button>
-                            </div>
-                            <button type="submit" class="w-full px-6 py-3 bg-rose-500 text-white rounded-full font-bold shadow-md hover:bg-rose-600 transition-colors">
-                                Log In
-                            </button>
-                        </form>
-
-                        <!-- Registration Form (hidden by default) -->
-                        <form id="register-form" class="space-y-4 hidden">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="register-name">Full Name</label>
-                                <input type="text" id="register-name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="Jane Doe" required/>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="register-email">Gmail Address</label>
-                                <input type="email" id="register-email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="you@gmail.com" required/>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="register-password">Password</label>
-                                <input type="password" id="register-password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" required/>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="register-phone">Phone Number</label>
-                                <input type="tel" id="register-phone" name="phoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="9876543210" required/>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700" for="register-location">City / Location</label>
-                                <input type="text" id="register-location" name="location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="Chennai, Tamil Nadu" required/>
-                            </div>
-                            <button type="submit" class="w-full px-6 py-3 bg-rose-500 text-white rounded-full font-bold shadow-md hover:bg-rose-600 transition-colors">
-                                Sign Up
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-
-            // Tab switching logic
-            const tabLogin = modal.querySelector('#tab-login');
-            const tabRegister = modal.querySelector('#tab-register');
-            const loginForm = modal.querySelector('#login-form');
-            const registerForm = modal.querySelector('#register-form');
-
-            tabLogin.addEventListener('click', () => {
-                tabLogin.classList.add('bg-white', 'shadow');
-                tabRegister.classList.remove('bg-white', 'shadow');
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-            });
-            tabRegister.addEventListener('click', () => {
-                tabRegister.classList.add('bg-white', 'shadow');
-                tabLogin.classList.remove('bg-white', 'shadow');
-                registerForm.classList.remove('hidden');
-                loginForm.classList.add('hidden');
-            });
-
-            // Form submission listeners
-            modal.querySelector('#close-modal-btn').addEventListener('click', closeLoginModal);
-            modal.querySelector('#login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = e.target.email.value;
-                const password = e.target.password.value;
-                handleLogin(email, password);
-            });
-            modal.querySelector('#register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = e.target.name.value;
-                const email = e.target.email.value;
-                const password = e.target.password.value;
-                const phoneNumber = e.target.phoneNumber.value;
-                const location = e.target.location.value;
-                handleRegistration({ name, email, password, phoneNumber, location });
-            });
-            modal.querySelector('#forgot-password-link').addEventListener('click', openPasswordRecoveryModal);
-
-            return modal;
-        };
-
-        const createPasswordRecoveryModal = () => {
-            const modal = document.createElement('div');
-            modal.className = "modal-backdrop";
-            modal.innerHTML = `
-                <div class="modal-container bg-white rounded-xl shadow-2xl p-8 w-11/12 max-w-md relative">
-                    <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-key-hole"><path d="M10 20H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/><path d="M16 4h-6"/><path d="M12 17v-2"/><path d="M16 17v-2"/><path d="M12 11v-2"/><path d="M16 11v-2"/></svg>
-                        <span>Password Recovery</span>
-                    </h4>
-                    <p class="text-sm text-gray-600 mb-4">Enter your registered email address to receive a password reset link.</p>
-                    <form id="recovery-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="recovery-email">Email</label>
-                            <input type="email" id="recovery-email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="you@gmail.com" required/>
-                        </div>
-                        <button type="submit" class="w-full px-6 py-3 bg-rose-500 text-white rounded-full font-bold shadow-md hover:bg-rose-600 transition-colors">
-                            Send Reset Link
-                        </button>
-                    </form>
-                </div>
-            `;
-            modal.querySelector('#close-modal-btn').addEventListener('click', closePasswordRecoveryModal);
-            modal.querySelector('#recovery-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = e.target.email.value;
-                handlePasswordRecovery(email);
-            });
-            return modal;
-        };
+        });
         
-        const createPaymentModal = () => {
-            const course = appState.activeCourseForPurchase;
-            if (!course) return null;
-
-            const modal = document.createElement('div');
-            modal.className = "modal-backdrop";
-            modal.innerHTML = `
-                <div class="modal-container bg-white rounded-xl shadow-2xl p-8 w-11/12 max-w-md relative">
-                    <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M10 12h4"/><circle cx="12" cy="12" r="2"/></svg>
-                        <span>Payment for ${course.name}</span>
-                    </h4>
-                    <div class="text-center p-4 bg-gray-50 rounded-lg mb-4">
-                        <p class="text-lg text-gray-600">Your total is:</p>
-                        <span class="text-4xl font-extrabold text-rose-500">₹${course.price}</span>
-                    </div>
-
-                    <!-- Payment Method Tabs -->
-                    <div class="flex bg-gray-100 p-1 rounded-full mb-6">
-                        <button id="tab-card" class="flex-1 py-2 px-4 rounded-full font-medium transition-colors">Card</button>
-                        <button id="tab-upi" class="flex-1 py-2 px-4 rounded-full font-medium transition-colors">UPI</button>
-                        <button id="tab-netbanking" class="flex-1 py-2 px-4 rounded-full font-medium transition-colors">Net Banking</button>
-                    </div>
-
-                    <!-- Payment Forms Container -->
-                    <div id="payment-form-container">
-                        ${createPaymentFormContent()}
-                    </div>
-
-                </div>
-            `;
-            modal.querySelector('#close-modal-btn').addEventListener('click', closePaymentModal);
-            
-            // Add event listeners for the payment tabs
-            const tabCard = modal.querySelector('#tab-card');
-            const tabUpi = modal.querySelector('#tab-upi');
-            const tabNetbanking = modal.querySelector('#tab-netbanking');
-            
-            tabCard.addEventListener('click', () => setActivePaymentMethod('card'));
-            tabUpi.addEventListener('click', () => setActivePaymentMethod('upi'));
-            tabNetbanking.addEventListener('click', () => setActivePaymentMethod('netbanking'));
-
-            // Highlight the active tab
-            if (appState.activePaymentMethod === 'card') {
-                tabCard.classList.add('bg-white', 'shadow');
-            } else if (appState.activePaymentMethod === 'upi') {
-                tabUpi.classList.add('bg-white', 'shadow');
-            } else if (appState.activePaymentMethod === 'netbanking') {
-                tabNetbanking.classList.add('bg-white', 'shadow');
-            }
-
-            // Add event listener for the dynamic payment form
-            const paymentForm = modal.querySelector('form');
-            if (paymentForm) {
-                paymentForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    processPayment();
-                });
-            }
-
-            return modal;
-        };
-
-        const createPaymentFormContent = () => {
-            const course = appState.activeCourseForPurchase;
-            if (appState.activePaymentMethod === 'card') {
-                return `
-                    <form id="payment-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="card-number">Card Number</label>
-                            <input type="text" id="card-number" name="card-number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="XXXX XXXX XXXX XXXX" required/>
-                        </div>
-                        <div class="flex space-x-4">
-                            <div class="flex-1">
-                                <label class="block text-sm font-medium text-gray-700" for="expiry">Expiry</label>
-                                <input type="text" id="expiry" name="expiry" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="MM/YY" required/>
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-sm font-medium text-gray-700" for="cvv">CVV</label>
-                                <input type="text" id="cvv" name="cvv" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="XXX" required/>
-                            </div>
-                        </div>
-                        <button type="submit" id="pay-now-btn" class="w-full px-6 py-3 bg-pink-600 text-white rounded-full font-bold shadow-md hover:bg-pink-700 transition-colors" ${appState.isPaymentProcessing ? 'disabled' : ''}>
-                            ${appState.isPaymentProcessing ?
-                                `<svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Processing...` :
-                                `Pay ₹${course.price} Now`
-                            }
-                        </button>
-                    </form>
-                `;
-            } else if (appState.activePaymentMethod === 'upi') {
-                return `
-                    <form id="payment-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="upi-id">UPI ID</label>
-                            <input type="text" id="upi-id" name="upi-id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" placeholder="you@upi" required/>
-                        </div>
-                        <button type="submit" id="pay-now-btn" class="w-full px-6 py-3 bg-pink-600 text-white rounded-full font-bold shadow-md hover:bg-pink-700 transition-colors" ${appState.isPaymentProcessing ? 'disabled' : ''}>
-                            ${appState.isPaymentProcessing ?
-                                `<svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Processing...` :
-                                `Pay ₹${course.price} via UPI`
-                            }
-                        </button>
-                    </form>
-                `;
-            } else if (appState.activePaymentMethod === 'netbanking') {
-                return `
-                    <form id="payment-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="bank-select">Select Your Bank</label>
-                            <select id="bank-select" name="bank-select" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" required>
-                                <option value="">Select a Bank</option>
-                                <option value="sbi">State Bank of India</option>
-                                <option value="hdfc">HDFC Bank</option>
-                                <option value="icici">ICICI Bank</option>
-                                <option value="axis">Axis Bank</option>
-                                <option value="pnb">Punjab National Bank</option>
-                            </select>
-                        </div>
-                        <button type="submit" id="pay-now-btn" class="w-full px-6 py-3 bg-pink-600 text-white rounded-full font-bold shadow-md hover:bg-pink-700 transition-colors" ${appState.isPaymentProcessing ? 'disabled' : ''}>
-                            ${appState.isPaymentProcessing ?
-                                `<svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Processing...` :
-                                `Pay ₹${course.price} via Net Banking`
-                            }
-                        </button>
-                    </form>
-                `;
-            }
-        };
-        
-        const createVideoModal = () => {
-            const modal = document.createElement('div');
-            modal.className = "video-modal-backdrop";
-            modal.innerHTML = `
-                <div class="video-modal-container relative w-11/12 max-w-4xl rounded-xl overflow-hidden">
-                    <button id="close-video-modal-btn" class="absolute top-4 right-4 z-10 text-white hover:text-gray-300 bg-black/50 p-2 rounded-full backdrop-blur-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <video id="intro-video-player" class="w-full h-auto max-h-[80vh] rounded-lg" controls autoplay playsinline>
-                        <source src="${appState.activeVideoUrl}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            `;
-            modal.querySelector('#close-video-modal-btn').addEventListener('click', closeVideoModal);
-            return modal;
-        };
-
-        const createCourseAccessModal = (course) => {
-            const modal = document.createElement('div');
-            modal.className = "course-access-modal-backdrop";
-            modal.innerHTML = `
-                <div class="modal-container bg-white rounded-xl shadow-2xl p-8 w-11/12 max-w-4xl relative">
-                    <button id="close-course-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video-icon"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="4" width="12" height="16" rx="2"/></svg>
-                        <span>${course.name} - Full Access</span>
-                    </h4>
-                    <p class="text-sm text-gray-600 mb-6">Enjoy lifetime access to the full course content below.</p>
-                    <div class="aspect-video w-full rounded-lg overflow-hidden mb-6 relative">
-                        <div class="watermark">${appState.user.name} - ${appState.user.id}</div>
-                        <video id="full-course-video" class="w-full h-full" controls autoplay playsinline>
-                            <source src="${course.videoUrl}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <a href="${course.pdfUrl}" target="_blank" class="flex items-center space-x-2 text-rose-500 font-medium hover:text-rose-600 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-                        <span>Download Course PDF (Watermarked: ${appState.user.name} - ${appState.user.id})</span>
-                    </a>
-                </div>
-            `;
-            modal.querySelector('#close-course-modal-btn').addEventListener('click', closeCourseAccessModal);
-            return modal;
-        };
-
-        const createProfileManagementModal = () => {
-            const modal = document.createElement('div');
-            modal.className = "modal-backdrop";
-            modal.innerHTML = `
-                <div class="modal-container bg-white rounded-xl shadow-2xl p-8 w-11/12 max-w-md relative">
-                    <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
-                    </button>
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><path d="M18 21a2 2 0 0 0 2-2v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2a2 2 0 0 0 2 2"/><circle cx="12" cy="7" r="4"/><path d="M19 8v2"/><path d="M19 14v2"/><path d="M22 11h-2.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H22"/><path d="M19 11h-2.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H19"/></svg>
-                        <span>Edit Profile</span>
-                    </h4>
-                    <form id="profile-edit-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="edit-name">Name</label>
-                            <input type="text" id="edit-name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" value="${appState.user.name}" required/>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="edit-phone">Phone Number</label>
-                            <input type="tel" id="edit-phone" name="phoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" value="${appState.user.phoneNumber}" required/>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="edit-location">Location</label>
-                            <input type="text" id="edit-location" name="location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 p-2.5" value="${appState.user.location}" required/>
-                        </div>
-                        <button type="submit" class="w-full px-6 py-3 bg-rose-500 text-white rounded-full font-bold shadow-md hover:bg-rose-600 transition-colors">
-                            Save Changes
-                        </button>
-                    </form>
-                </div>
-            `;
-            modal.querySelector('#close-modal-btn').addEventListener('click', closeProfileEditModal);
-            modal.querySelector('#profile-edit-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const updatedUser = {
-                    ...appState.user,
-                    name: e.target.name.value,
-                    phoneNumber: e.target.phoneNumber.value,
-                    location: e.target.location.value
-                };
-                handleProfileUpdate(updatedUser);
-            });
-            return modal;
-        };
-
-        const createMessageToast = () => {
-            const toast = document.createElement('div');
-            toast.className = `fixed bottom-4 left-1/2 -translate-x-1/2 p-4 rounded-full shadow-lg font-medium text-center z-[2000] transition-all duration-300 transform animate-pulse-once ${appState.message.type}`;
-            toast.textContent = appState.message.text;
-            
-            // Add a temporary animation to make it pop
-            toast.style.animation = 'messagePop 0.5s ease-out';
-            document.head.insertAdjacentHTML('beforeend', `
-                <style>
-                    @keyframes messagePop {
-                        0% { opacity: 0; transform: translate(-50%, 20px); }
-                        100% { opacity: 1; transform: translate(-50%, 0); }
-                    }
-                </style>
-            `);
-
-            return toast;
-        }
-
-        // --- Main Rendering Function ---
-        const renderApp = () => {
-            const app = document.getElementById('app');
-            app.innerHTML = ''; // Clear previous content
-
-            // Render navigation header
-            app.appendChild(createHeader());
-
-            // Render main content based on active tab and state
-            const main = document.createElement('main');
-            main.className = "p-4";
-
-            if (appState.activeTab === 'courses') {
-                main.appendChild(createHeroSection());
-                main.appendChild(createCourseList());
-            } else if (appState.activeTab === 'dashboard') {
-                main.appendChild(createDashboard());
-            }
-            app.appendChild(main);
-
-            // Render modals
-            if (appState.isLoginModalOpen) {
-                app.appendChild(createLoginModal());
-            }
-            if (appState.isPasswordRecoveryOpen) {
-                app.appendChild(createPasswordRecoveryModal());
-            }
-            if (appState.isProfileEditOpen) {
-                app.appendChild(createProfileManagementModal());
-            }
-            if (appState.isPaymentModalOpen) {
-                app.appendChild(createPaymentModal());
-            }
-            if (appState.isVideoModalOpen) {
-                app.appendChild(createVideoModal());
-            }
-            if (appState.isCourseAccessModalOpen) {
-                app.appendChild(createCourseAccessModal(appState.activeCourseForPurchase));
-            }
-
-            // Render message toast if a message exists
-            if (appState.message) {
-                document.body.appendChild(createMessageToast());
-            }
-
-            // Re-run Lucide to render icons added dynamically
-            lucide.createIcons();
-        };
-
-        // Initial render on page load
-        document.addEventListener('DOMContentLoaded', renderApp);
     </script>
+
 </body>
 </html>
