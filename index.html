@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Possible Studio - Client Showcase</title>
+    <title>Possible Studio - Client Showcase (Dynamic)</title>
     <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles to hide scrollbars and apply yellow glow */
@@ -32,164 +32,178 @@
         
     </style>
 </head>
-<!-- The body is set to full viewport height with hidden overflow to prevent native scrolling --><body class="bg-gray-950 text-white font-sans antialiased h-screen overflow-hidden">
+<body class="bg-gray-950 text-white font-sans antialiased h-screen overflow-hidden">
 
-    <!-- Fixed Header and Navigation Controls --><header class="fixed top-0 left-0 right-0 z-50 p-4 bg-gray-950/90 backdrop-blur-sm border-b-2 border-yellow-700/50 flex justify-between items-center shadow-lg">
+    <!-- Fixed Header (Always visible) -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 p-4 bg-gray-950/90 backdrop-blur-sm border-b-2 border-yellow-700/50 flex justify-between items-center shadow-lg">
         <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
             Possible Studio
         </h1>
 
-        <div class="space-x-4">
-            <button id="prev-button" class="px-4 py-2 bg-gray-800 text-yellow-500 font-medium rounded-full transition duration-200 hover:bg-gray-700 disabled:opacity-30 disabled:pointer-events-none" disabled>
-                &larr; Previous (Images)
+        <div class="flex items-center space-x-4">
+            <!-- Rental Calculator Button (Always visible) -->
+            <a href="https://possiblestudio.netlify.app/" target="_blank" class="px-4 py-2 bg-yellow-500 text-gray-950 font-medium rounded-full transition duration-200 hover:bg-yellow-600 shadow-lg text-sm md:text-base">
+                Rental Calculator
+            </a>
+
+            <!-- Admin Upload Button (Visible after auth) -->
+            <button id="upload-btn" class="hidden px-4 py-2 bg-gray-800 text-yellow-500 font-medium rounded-full transition duration-200 hover:bg-gray-700 text-sm md:text-base" onclick="openUploadModal()">
+                Upload Media
             </button>
-            <button id="next-button" class="px-4 py-2 bg-yellow-500 text-gray-950 font-medium rounded-full transition duration-200 hover:bg-yellow-600 disabled:opacity-30 disabled:pointer-events-none">
-                Next (Videos) &rarr;
-            </button>
+            
+            <!-- Section Navigation Buttons (Hidden on Landing Screen) -->
+            <div id="section-nav-buttons" class="space-x-4 hidden">
+                <button id="prev-button" class="px-4 py-2 bg-gray-800 text-yellow-500 font-medium rounded-full transition duration-200 hover:bg-gray-700 disabled:opacity-30 disabled:pointer-events-none" disabled>
+                    &larr; Photos
+                </button>
+                <button id="next-button" class="px-4 py-2 bg-yellow-500 text-gray-950 font-medium rounded-full transition duration-200 hover:bg-yellow-600 disabled:opacity-30 disabled:pointer-events-none">
+                    Sample Works &rarr;
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Container: Horizontal Flexbox --><!-- This container holds all sections and will be horizontally scrolled via JS --><div id="content-slider" class="flex w-full h-full pt-[6.5rem] overflow-x-hidden">
-        
-        <!-- Section 1: Studio Images (Tile Gallery) --><section id="studio-images" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
-            <div class="max-w-7xl mx-auto h-full flex flex-col">
-                <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
-                    Our Space: Studio Images
-                </h2>
-                
-                <!-- Tile Gallery Grid --><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
-                    
-                    <!-- Image Tile 1 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/222233/d1d5db?text=Image+1">
-                        <img src="https://placehold.co/400x300/222233/d1d5db?text=Image+1" 
-                            alt="Studio Image 1" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/222233/d1d5db?text=Error';">
-                    </div>
-                    
-                    <!-- Image Tile 2 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/333344/d1d5db?text=Image+2">
-                        <img src="https://placehold.co/400x300/333344/d1d5db?text=Image+2" 
-                            alt="Studio Image 2" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/333344/d1d5db?text=Error';">
-                    </div>
-                    
-                    <!-- Image Tile 3 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/444455/d1d5db?text=Image+3">
-                        <img src="https://placehold.co/400x300/444455/d1d5db?text=Image+3" 
-                            alt="Studio Image 3" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/444455/d1d5db?text=Error';">
-                    </div>
-
-                    <!-- Image Tile 4 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/555566/d1d5db?text=Image+4">
-                        <img src="https://placehold.co/400x300/555566/d1d5db?text=Image+4" 
-                            alt="Studio Image 4" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/555566/d1d5db?text=Error';">
-                    </div>
-
-                    <!-- Image Tile 5 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/666677/d1d5db?text=Image+5">
-                        <img src="https://placehold.co/400x300/666677/d1d5db?text=Image+5" 
-                            alt="Studio Image 5" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/666677/d1d5db?text=Error';">
-                    </div>
-                    
-                    <!-- Image Tile 6 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/777788/d1d5db?text=Image+6">
-                        <img src="https://placehold.co/400x300/777788/d1d5db?text=Image+6" 
-                            alt="Studio Image 6" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/777788/d1d5db?text=Error';">
-                    </div>
-
-                    <!-- Image Tile 7 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/888899/d1d5db?text=Image+7">
-                        <img src="https://placehold.co/400x300/888899/d1d5db?text=Image+7" 
-                            alt="Studio Image 7" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/888899/d1d5db?text=Error';">
-                    </div>
-
-                    <!-- Image Tile 8 --><div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://placehold.co/800x600/9999AA/d1d5db?text=Image+8">
-                        <img src="https://placehold.co/400x300/9999AA/d1d5db?text=Image+8" 
-                            alt="Studio Image 8" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/9999AA/d1d5db?text=Error';">
-                    </div>
-                    
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 2: Sample Videos (w-screen makes it fill 100% of the viewport width) --><section id="sample-videos" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
-                    Sample Work: Client Videos
-                </h2>
-                
-                <!-- NEW: Video Tile Gallery Grid (matches image gallery) --><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
-                    
-                    <!-- Video Tile 1 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-1.mp4">
-                        <img src="https://placehold.co/400x300/d69e2e/1a202c?text=Video+1" 
-                            alt="Video Thumbnail 1" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/d69e2e/1a202c?text=Error';">
-                    </div>
-
-                    <!-- Video Tile 2 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-2.mp4">
-                        <img src="https://placehold.co/400x300/b8860b/1a202c?text=Video+2" 
-                            alt="Video Thumbnail 2" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/b8860b/1a202c?text=Error';">
-                    </div>
-
-                    <!-- Video Tile 3 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-3.mp4">
-                        <img src="https://placehold.co/400x300/daa520/1a202c?text=Video+3" 
-                            alt="Video Thumbnail 3" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/daa520/1a202c?text=Error';">
-                    </div>
-
-                    <!-- Video Tile 4 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-4.mp4">
-                        <img src="https://placehold.co/400x300/cd853f/1a202c?text=Video+4" 
-                            alt="Video Thumbnail 4" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/cd853f/1a202c?text=Error';">
-                    </div>
-
-                    <!-- Video Tile 5 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-5.mp4">
-                        <img src="https://placehold.co/400x300/d69e2e/1a202c?text=Video+5" 
-                            alt="Video Thumbnail 5" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/d69e2e/1a202c?text=Error';">
-                    </div>
-
-                    <!-- Video Tile 6 --><div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
-                        data-src="https://mock-video-server.com/mock-video-6.mp4">
-                        <img src="https://placehold.co/400x300/b8860b/1a202c?text=Video+6" 
-                            alt="Video Thumbnail 6" 
-                            class="w-full h-auto object-cover rounded-xl aspect-square"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/b8860b/1a202c?text=Error';">
-                    </div>
-                </div>
-            </div>
-        </section>
-
+    <!-- Landing Screen (Shown Initially) -->
+    <div id="landing-screen" class="absolute inset-0 bg-gray-950 text-white font-sans antialiased h-screen flex flex-col items-center justify-center z-40 transition duration-500">
+        <h1 class="text-6xl font-extrabold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 tracking-wider">
+            Possible Studio
+        </h1>
+        <p class="text-xl text-gray-300 mb-10">Select a section to view the showcase.</p>
+        <div class="space-x-8 flex flex-col md:flex-row space-y-4 md:space-y-0">
+            <button id="start-photos" class="text-xl px-8 py-4 bg-yellow-500 text-gray-950 font-bold rounded-xl transition duration-200 hover:bg-yellow-600 shadow-xl card-shadow">
+                Photos
+            </button>
+            <button id="start-videos" class="text-xl px-8 py-4 bg-yellow-500 text-gray-950 font-bold rounded-xl transition duration-200 hover:bg-yellow-600 shadow-xl card-shadow">
+                Sample Works
+            </button>
+        </div>
     </div>
 
-    <!-- Image Modal (Hidden by default) --><div id="image-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeImageModal(event)">
+
+    <!-- Main Content Wrapper (Hidden Initially) -->
+    <div id="content-wrapper" class="w-full h-full hidden pt-[6.5rem]">
+
+        <!-- Main Content Container: Horizontal Flexbox -->
+        <div id="content-slider" class="flex w-full h-full overflow-x-hidden">
+            
+            <!-- Section 1: Studio Images (Tile Gallery) -->
+            <section id="studio-images" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
+                <div class="max-w-7xl mx-auto h-full flex flex-col">
+                    <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
+                        Photos
+                    </h2>
+                    
+                    <!-- Dynamic Gallery Container -->
+                    <div id="photo-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
+                        
+                        <!-- STATIC UPLOADED IMAGES, now all using Image/.jpeg path -->
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/1.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/1.jpeg" 
+                                alt="Studio Image 1" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/222233/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/2.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/2.jpeg" 
+                                alt="Studio Image 2" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/333344/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/3.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/3.jpeg" 
+                                alt="Studio Image 3" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/444455/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/4.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/4.jpeg" 
+                                alt="Studio Image 4" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/555566/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/5.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/5.jpeg" 
+                                alt="Studio Image 5" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/666677/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/6.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/6.jpeg" 
+                                alt="Studio Image 6" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/777788/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/7.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/7.jpeg" 
+                                alt="Studio Image 7" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/888899/d1d5db?text=Image+Error';">
+                        </div>
+                        <div class="image-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="Image/8.jpeg" onclick="openImageModal(this)">
+                            <img src="Image/8.jpeg" 
+                                alt="Studio Image 8" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/9999AA/d1d5db?text=Image+Error';">
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Section 2: Sample Videos (w-screen makes it fill 100% of the viewport width) -->
+            <section id="sample-videos" class="w-screen flex-shrink-0 p-4 md:p-8 overflow-y-auto no-scrollbar">
+                <div class="max-w-7xl mx-auto">
+                    <h2 class="text-4xl font-bold mb-8 border-l-4 border-yellow-500 pl-4 text-yellow-400">
+                        Sample Works
+                    </h2>
+                    
+                    <!-- Dynamic Video Gallery Container -->
+                    <div id="video-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-4">
+                         <p class="col-span-4 text-center text-gray-500 py-10 hidden" id="video-loading">Loading videos...</p>
+
+                         <!-- The Google Drive video placeholders remain here for you to update with your public video IDs. -->
+                        <div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_PUBLIC_VIDEO_ID_HERE_1"
+                            onclick="openVideoModal(this)">
+                            <img src="https://placehold.co/400x300/d69e2e/1a202c?text=Video+1+Preview" 
+                                alt="Video Thumbnail 1" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/d69e2e/1a202c?text=Error';">
+                        </div>
+                        <div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_PUBLIC_VIDEO_ID_HERE_2"
+                            onclick="openVideoModal(this)">
+                            <img src="https://placehold.co/400x300/b8860b/1a202c?text=Video+2+Preview" 
+                                alt="Video Thumbnail 2" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/b8860b/1a202c?text=Error';">
+                        </div>
+                        <div class="video-gallery-tile bg-gray-900 rounded-xl overflow-hidden shadow-lg card-shadow cursor-pointer hover:scale-[1.03] transition duration-300"
+                            data-src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_PUBLIC_VIDEO_ID_HERE_3"
+                            onclick="openVideoModal(this)">
+                            <img src="https://placehold.co/400x300/daa520/1a202c?text=Video+3+Preview" 
+                                alt="Video Thumbnail 3" 
+                                class="w-full h-auto object-cover rounded-xl aspect-square"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x300/daa520/1a202c?text=Error';">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Image Modal (Hidden by default) -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeImageModal(event)">
         <!-- Modal Backdrop --><div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
 
         <!-- Modal Content Container --><div id="image-modal-content" class="relative bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl modal-hidden card-shadow">
@@ -204,7 +218,8 @@
         </div>
     </div>
 
-    <!-- NEW: Video Modal (Hidden by default) --><div id="video-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeVideoModal(event)">
+    <!-- Video Modal (Hidden by default) -->
+    <div id="video-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="closeVideoModal(event)">
         <!-- Modal Backdrop --><div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
 
         <!-- Modal Content Container --><div id="video-modal-content" class="relative bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl modal-hidden card-shadow">
@@ -216,19 +231,137 @@
             <!-- Video Display --><div class="mb-0 aspect-video bg-black rounded-lg overflow-hidden border-2 border-yellow-700/50">
                 <video id="modal-video" controls autoplay class="w-full h-full object-contain">
                     <source id="modal-video-source" src="" type="video/mp4">
-                    Your browser does not support the video tag.
+                    Your browser does support the video tag.
                 </video>
             </div>
         </div>
     </div>
 
+    <!-- Admin Upload Modal -->
+    <div id="upload-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4" onclick="closeUploadModal(event)">
+        <!-- Modal Backdrop --><div class="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
 
-    <script>
-        // --- Main Page Slider Logic (Images <-> Videos) ---
+        <!-- Modal Content Container --><div id="upload-modal-content" class="relative bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-lg modal-hidden card-shadow">
+            
+            <!-- Close Button (Top Right) --><button class="absolute top-4 right-4 text-white text-3xl opacity-70 hover:opacity-100 transition duration-150" aria-label="Close" onclick="closeUploadModal()">
+                &times;
+            </button>
+            
+            <h3 class="text-2xl font-bold text-yellow-500 mb-6">Upload New Media</h3>
+            
+            <form id="upload-form" onsubmit="uploadMedia(event)">
+                <div class="mb-4">
+                    <label for="media-type" class="block text-sm font-medium text-gray-300 mb-2">Media Type</label>
+                    <select id="media-type" required class="w-full p-3 bg-gray-800 border border-yellow-700/50 rounded-lg text-white focus:ring-yellow-500 focus:border-yellow-500">
+                        <option value="photo">Photo (JPG, PNG)</option>
+                        <option value="video">Video (MP4, MOV)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="media-file" class="block text-sm font-medium text-gray-300 mb-2">Select File</label>
+                    <input type="file" id="media-file" required accept="image/*,video/*" class="w-full p-3 bg-gray-800 border border-yellow-700/50 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-gray-900 hover:file:bg-yellow-600">
+                </div>
+
+                <div id="upload-progress-container" class="hidden mb-4">
+                    <div class="text-sm font-medium mb-1 text-yellow-400">Uploading... <span id="upload-percentage">0%</span></div>
+                    <div class="w-full bg-gray-700 rounded-full h-2.5">
+                        <div id="upload-progress-bar" class="bg-yellow-500 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <button type="submit" id="upload-submit-btn" class="w-full px-4 py-3 bg-yellow-500 text-gray-950 font-bold rounded-xl transition duration-200 hover:bg-yellow-600 shadow-xl">
+                    Start Upload
+                </button>
+                <p id="upload-message" class="mt-4 text-center text-sm text-red-400"></p>
+            </form>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Import Firebase components
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, onSnapshot, setDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        
+        // --- Firebase Initialization ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app, auth, db, storage, userId;
+        let isAuthReady = false;
+
+        const photoGallery = document.getElementById('photo-gallery');
+        const videoGallery = document.getElementById('video-gallery');
+        const uploadBtn = document.getElementById('upload-btn');
+
+        if (firebaseConfig) {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            storage = getStorage(app);
+            
+            onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (error) {
+                        console.error("Firebase Auth error:", error);
+                    }
+                }
+                userId = auth.currentUser?.uid || 'anonymous';
+                isAuthReady = true;
+                
+                if (auth.currentUser && auth.currentUser.isAnonymous === false) {
+                    uploadBtn.classList.remove('hidden');
+                } else {
+                    uploadBtn.classList.add('hidden');
+                }
+
+                // If using dynamic content, call startGalleryListeners() here.
+            });
+        } else {
+            console.error("Firebase configuration is missing.");
+            isAuthReady = true;
+        }
+
+        // --- Admin Upload Logic (Placeholder for future development) ---
+        
+        const uploadModal = document.getElementById('upload-modal');
+        const uploadModalContent = document.getElementById('upload-modal-content');
+        
+        window.openUploadModal = function() {
+            if (!auth.currentUser || auth.currentUser.isAnonymous) {
+                // Since Firebase is disabled for this purpose, we'll just show a message.
+                console.warn("Upload feature is disabled/requires authentication.");
+                return;
+            }
+            // ... (rest of upload modal logic)
+        }
+
+        window.closeUploadModal = function(e) {
+            // ... (rest of upload modal logic)
+        }
+        
+        window.uploadMedia = async function(e) {
+           // ... (rest of upload media logic)
+        }
+
+
+        // --- Page Navigation and Modal Logic ---
+        
         const slider = document.getElementById('content-slider');
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
         const sections = document.querySelectorAll('#content-slider section');
+        const sectionNavButtons = document.getElementById('section-nav-buttons');
         let currentSectionIndex = 0;
 
         function scrollToSection(index) {
@@ -236,38 +369,41 @@
                 currentSectionIndex = index;
                 const offset = currentSectionIndex * window.innerWidth;
                 
-                slider.scrollTo({
-                    left: offset,
-                    behavior: 'smooth'
-                });
+                slider.scrollTo({ left: offset, behavior: 'smooth' });
                 updateNavigationButtons();
             }
+        }
+
+        function initializeApp(startIndex) {
+            document.getElementById('landing-screen').classList.add('hidden');
+            document.getElementById('content-wrapper').classList.remove('hidden');
+            sectionNavButtons.classList.remove('hidden'); 
+            scrollToSection(startIndex);
         }
 
         function updateNavigationButtons() {
             prevButton.disabled = currentSectionIndex === 0;
             nextButton.disabled = currentSectionIndex === sections.length - 1;
-            
-            prevButton.textContent = currentSectionIndex === 1 ? '← Previous (Images)' : '← Previous';
-            nextButton.textContent = currentSectionIndex === 0 ? 'Next (Videos) →' : 'Next →';
         }
 
+        document.getElementById('start-photos').addEventListener('click', () => initializeApp(0));
+        document.getElementById('start-videos').addEventListener('click', () => initializeApp(1));
         nextButton.addEventListener('click', () => scrollToSection(currentSectionIndex + 1));
         prevButton.addEventListener('click', () => scrollToSection(currentSectionIndex - 1));
 
         window.addEventListener('resize', () => {
-            slider.scrollLeft = currentSectionIndex * window.innerWidth;
+            if (!document.getElementById('content-wrapper').classList.contains('hidden')) {
+                slider.scrollLeft = currentSectionIndex * window.innerWidth;
+            }
         });
-        updateNavigationButtons(); // Initial call
+        updateNavigationButtons(); 
 
-
-        // --- Image Gallery Modal Logic ---
-        const imageTiles = document.querySelectorAll('.image-gallery-tile');
+        // --- Image Modal Logic ---
         const imageModal = document.getElementById('image-modal');
         const imageModalContent = document.getElementById('image-modal-content');
         const modalImage = document.getElementById('modal-image');
 
-        function openImageModal(tile) {
+        window.openImageModal = function(tile) {
             modalImage.src = tile.dataset.src;
             imageModal.classList.remove('hidden');
             imageModal.classList.add('flex');
@@ -279,8 +415,8 @@
             }, 10);
         }
 
-        function closeImageModal(e) {
-            if (e && e.target !== imageModal) return;
+        window.closeImageModal = function(e) {
+            if (e && e.target !== imageModal && e.target.closest('#image-modal-content')) return;
 
             imageModalContent.classList.remove('modal-visible');
             imageModalContent.classList.add('modal-hidden');
@@ -292,22 +428,15 @@
             }, 300);
         }
 
-        imageTiles.forEach(tile => {
-            tile.addEventListener('click', () => {
-                openImageModal(tile);
-            });
-        });
-
-        // --- Video Gallery Modal Logic ---
-        const videoTiles = document.querySelectorAll('.video-gallery-tile');
+        // --- Video Modal Logic ---
         const videoModal = document.getElementById('video-modal');
         const videoModalContent = document.getElementById('video-modal-content');
         const modalVideo = document.getElementById('modal-video');
         const modalVideoSource = document.getElementById('modal-video-source');
 
-        function openVideoModal(tile) {
+        window.openVideoModal = function(tile) {
             modalVideoSource.src = tile.dataset.src;
-            modalVideo.load(); // Load the new video source
+            modalVideo.load();
             
             videoModal.classList.remove('hidden');
             videoModal.classList.add('flex');
@@ -320,11 +449,11 @@
             }, 10);
         }
 
-        function closeVideoModal(e) {
-            if (e && e.target !== videoModal) return;
+        window.closeVideoModal = function(e) {
+            if (e && e.target !== videoModal && e.target.closest('#video-modal-content')) return;
 
-            modalVideo.pause(); // Stop video playback
-            modalVideoSource.src = ""; // Remove the source
+            modalVideo.pause();
+            modalVideoSource.src = "";
             
             videoModalContent.classList.remove('modal-visible');
             videoModalContent.classList.add('modal-hidden');
@@ -336,13 +465,7 @@
             }, 300);
         }
 
-        videoTiles.forEach(tile => {
-            tile.addEventListener('click', () => {
-                openVideoModal(tile);
-            });
-        });
-
-        // --- Global ESC Key Listener for both Modals ---
+        // --- Global ESC Key Listener ---
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") {
                 if (!imageModal.classList.contains('hidden')) {
@@ -351,7 +474,28 @@
                 if (!videoModal.classList.contains('hidden')) {
                     closeVideoModal();
                 }
+                if (!uploadModal.classList.contains('hidden')) {
+                    closeUploadModal();
+                }
             }
+        });
+
+        // CRITICAL FIX: Ensure the DOM is fully loaded before executing code that modifies it.
+        // The original code was inside a type="module" which can run before the DOM is ready.
+        // We wrap the gallery initialization in an event listener.
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attach click listeners to all static image tiles now that they are guaranteed to exist.
+            const imageTiles = document.querySelectorAll('#photo-gallery .image-gallery-tile');
+            imageTiles.forEach(tile => {
+                // The onclick attribute is already on the HTML element, but this ensures robustness:
+                tile.onclick = function() { window.openImageModal(this); };
+            });
+            
+            // Also ensure video tiles work, especially if you add local videos later
+            const videoTiles = document.querySelectorAll('#video-gallery .video-gallery-tile');
+            videoTiles.forEach(tile => {
+                tile.onclick = function() { window.openVideoModal(this); };
+            });
         });
         
     </script>
